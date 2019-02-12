@@ -1,11 +1,11 @@
 apply plugin: 'com.android.feature'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     baseFeature true
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
+        minSdkVersion 16
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -18,9 +18,9 @@ android {
 }
 
 dependencies {
-    api 'com.android.support:appcompat-v7:26.1.0'
+    api 'com.android.support:appcompat-v7:28.0.0'
     api 'com.android.support.constraint:constraint-layout:1.1.3'
-    api 'com.android.support:design:26.1.0'
+    api 'com.android.support:design:28.0.0'
     application project(':app')
-    feature project(':feature')
+    feature project(':story')
 }
