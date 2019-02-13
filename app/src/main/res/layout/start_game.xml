@@ -32,7 +32,7 @@
         android:text="New Game" />
 
     <Button
-        android:id="@+id/RandomStories"
+        android:id="@+id/randomStories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"

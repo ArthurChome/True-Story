@@ -5,41 +5,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".MainActivity">
+    tools:context=".StoryActivity">
 
-
-    <ImageView
-        android:layout_width="278dp"
-        android:layout_height="145dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
+    <TextView
+        android:id="@+id/storyText"
+        android:layout_width="363dp"
+        android:layout_height="229dp"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="71dp"
-        android:layout_marginLeft="71dp"
-        android:layout_marginTop="83dp"
-        android:src="@drawable/welcometruestory" />
-
-    <Button
-        android:id="@+id/newGameButton"
-        android:layout_width="137dp"
-        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="133dp"
-        android:layout_marginRight="133dp"
-        android:layout_marginBottom="393dp"
-        android:text="New Game" />
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="27dp"
+        android:textColor="#FFFFFF" />
+
 
     <Button
-        android:id="@+id/RandomStories"
+        android:id="@+id/trueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="139dp"
-        android:layout_marginLeft="139dp"
-        android:layout_marginBottom="325dp"
-        android:text="Random Stories" />
+        android:layout_marginStart="218dp"
+        android:layout_marginLeft="218dp"
+        android:layout_marginBottom="213dp"
+        android:text="True" />
+
+    <Button
+        android:id="@+id/falseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="113dp"
+        android:layout_marginLeft="113dp"
+        android:layout_marginBottom="213dp"
+        android:text="False" />
+
+    <Button
+        android:id="@+id/proceedButton"
+        android:layout_width="192dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="115dp"
+        android:layout_marginBottom="152dp"
+        android:text="Proceed" />
+
+    <TextView
+        android:id="@+id/notificationsText"
+        android:layout_width="174dp"
+        android:layout_height="58dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginBottom="54dp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        />
+
 </RelativeLayout>
