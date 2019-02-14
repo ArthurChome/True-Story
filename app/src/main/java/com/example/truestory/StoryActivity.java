@@ -53,14 +53,21 @@ public class StoryActivity extends AppCompatActivity {
 
     /** Text views */
     public TextView notificationsText;
+    public TextView currentPlayerText;
+    public TextView currentRoundText;
 
     /** Initialize the buttons. */
     public void init(){
-        notificationsText = findViewById(R.id.notificationsText);
         /** Give a value to all these button variables. */
         storyTrueButton = findViewById(R.id.trueButton);
         storyFalseButton = findViewById(R.id.falseButton);
         proceedButton = findViewById(R.id.proceedButton);
+
+        /** Specifiy the textviews. */
+        notificationsText = findViewById(R.id.notificationsText);
+        currentPlayerText = findViewById(R.id.currentPlayerText);
+        currentRoundText = findViewById(R.id.currentRoundText);
+
 
         /** Set-up a listener for the new game button. */
         storyTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -98,10 +105,15 @@ public class StoryActivity extends AppCompatActivity {
                        playerCorrect = true;
                    }
                    else playerCorrect= false;
+
+
                    Intent myIntent = new Intent(view.getContext(), StoryResultActivity.class);
 
+                   /** Debugger */
+                   Log.d("playerCorrect?", String.valueOf(playerCorrect));
+
                    /** Pass some parameters. */
-                   myIntent.putExtra("player correct", playerCorrect);
+                   myIntent.putExtra("playerCorrect", playerCorrect);
                    myIntent.putExtra("noPlayers", noPlayers);
                    myIntent.putExtra("noRounds", noRounds);
                    myIntent.putExtra("currentPlayer", currentPlayer);
@@ -120,6 +132,7 @@ public class StoryActivity extends AppCompatActivity {
 
                    Intent myIntent = new Intent(view.getContext(), StoryResultActivity.class);
                    /** Pass some parameters. */
+                   Log.d("playerCorrect?", String.valueOf(playerCorrect));
                    myIntent.putExtra("playerCorrect", playerCorrect);
                    myIntent.putExtra("noPlayers", noPlayers);
                    myIntent.putExtra("noRounds", noRounds);
@@ -145,6 +158,10 @@ public class StoryActivity extends AppCompatActivity {
             noRounds = extras.getInt("noRounds");
             currentPlayer = extras.getInt("currentPlayer");
             currentRound = extras.getInt("currentRound");
+
+            /** Specify the current player and round. */
+            currentPlayerText.setText("Player: " + currentPlayer);
+            currentRoundText.setText("Round: "+ currentRound);
         }
         else throw new java.lang.Error("No passed arguments found.");
     }
