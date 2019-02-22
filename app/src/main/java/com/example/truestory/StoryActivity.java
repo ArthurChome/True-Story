@@ -11,12 +11,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.Random;
+
 /**
  * This activity handles a story where the user must guess
  * if it's actually true or made up.
  * */
 
 public class StoryActivity extends AppCompatActivity {
+
+
+    /** We will be using Volley to help us get webservice data.
+     * https://www.londonappdeveloper.com/consuming-a-json-rest-api-in-android/
+     * https://www.youtube.com/watch?v=y2xtLqP8dSQ : IMPORTANT VIDEO
+     * */
+    //String baseURL = "https://www.reddit.com/r/todayilearned/new.json?limit=25";
+    //RequestQueue mRequestQueue = Volley.newRequestQueue(this);
 
     /**
      * Fields for the current game.
@@ -37,16 +52,12 @@ public class StoryActivity extends AppCompatActivity {
     /** This  boolean indicates whether the story is fake (made up). */
     boolean trueNews = true;
 
-    /**
-     * This string is the story.
-     * May be fetched from Reddit or from the internal story database.
-     * */
-    String story;
+    /** This is the database helper. */
+    DatabaseHelper databaseHelper;
 
     /**
      * Buttons
-     * You have to pick true or false for the current story to proceed.
-     * */
+     * You have to pick true or false for the current story to proceed. */
     public Button storyTrueButton;
     public Button storyFalseButton;
     public Button proceedButton;
@@ -55,9 +66,42 @@ public class StoryActivity extends AppCompatActivity {
     public TextView notificationsText;
     public TextView currentPlayerText;
     public TextView currentRoundText;
+    public TextView storyText;
+
+    /** Query */
+    public String query(String queryString){
+        databaseHelper.openDataBase();
+        String result = databaseHelper.queryDatabase(queryString);
+        databaseHelper.close();
+        return result;
+    }
+
+    /** This function will initialize the story featured */
+    public void initStory(){
+        /** Initialize a random number */
+        Random number = new Random();
+        // Obtain a number between [0 - 1].
+        int n = number.nextInt(2);
+
+        databaseHelper.openDataBase();
+        String storyString;
+
+        if (n == 0){
+            trueNews = true;
+            storyString =  databaseHelper.queryDatabase("SELECT * FROM TrueStory;");
+        }
+        else {
+            trueNews = false;
+            storyString = databaseHelper.queryDatabase("SELECT * FROM FakeStory;");
+        }
+        databaseHelper.close();
+        storyText.setText(storyString);
+    }
 
     /** Initialize the buttons. */
     public void init(){
+        databaseHelper =  new DatabaseHelper(this);
+
         /** Give a value to all these button variables. */
         storyTrueButton = findViewById(R.id.trueButton);
         storyFalseButton = findViewById(R.id.falseButton);
@@ -67,6 +111,7 @@ public class StoryActivity extends AppCompatActivity {
         notificationsText = findViewById(R.id.notificationsText);
         currentPlayerText = findViewById(R.id.currentPlayerText);
         currentRoundText = findViewById(R.id.currentRoundText);
+        storyText = findViewById(R.id.storyText);
 
 
         /** Set-up a listener for the new game button. */
@@ -150,6 +195,7 @@ public class StoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story);
         init();
+        initStory();
 
         /** Get the parameters that have been passed for creation. */
         Bundle extras = getIntent().getExtras();

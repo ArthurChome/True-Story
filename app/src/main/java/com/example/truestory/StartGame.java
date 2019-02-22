@@ -18,8 +18,6 @@ import android.widget.Button;
  * */
 
 public class StartGame extends AppCompatActivity {
-    DatabaseHandler myDb;
-
     /** Setup the new game button */
     public Button newGameButton;
     public Button randomStoriesButton;
@@ -59,10 +57,6 @@ public class StartGame extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Log.d("CREATION","created.");
-        /** Create the database. */
-        myDb = new DatabaseHandler(this);
-        Log.d("is the database created", String.valueOf(myDb.databaseExist));
-
         /** Initialize the buttons. */
         initButtons();
 
