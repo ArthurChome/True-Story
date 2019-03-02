@@ -22,6 +22,15 @@ public class StartGame extends AppCompatActivity {
     public Button newGameButton;
     public Button randomStoriesButton;
 
+    /** Pass arguments to the next activity that you have the intention to start. */
+    public void passArguments(Intent intent, int noPlayers, int noRounds, int currentPlayer, int currentRound){
+        intent.putExtra("noPlayers", noPlayers);
+        intent.putExtra("noRounds", noRounds);
+        intent.putExtra("currentPlayer", currentPlayer);
+        intent.putExtra("currentRound", currentRound);
+        return;
+    }
+
     /** Initialise the public buttons */
     void initButtons(){
         newGameButton = findViewById(R.id.newGameButton);
@@ -43,9 +52,13 @@ public class StartGame extends AppCompatActivity {
         randomStoriesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /** When the player clicks the new game-button,
-                 * he gets rerouted to the select no. of players screen. */
-                setContentView(R.layout.story);
+                /** When the player clicks the random story button,
+                 *  he can play as long as he likes. */
+                Intent myIntent = new Intent(view.getContext(), StoryActivity.class);
+                /** Pass some arguments to the next activity. */
+                passArguments(myIntent, 1, -1, 1, 1);
+                /** Start the activity. */
+                startActivityForResult(myIntent, 0);
             }
         });
     }
@@ -69,20 +82,15 @@ public class StartGame extends AppCompatActivity {
         return true;
     }
 
-    public void sendMessage(View view){
-        Intent startNewActivity = new Intent(this, View.class);
-
-        startActivity(startNewActivity);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        /**
+         * Handle action bar item clicks here. The action bar will
+         * automatically handle clicks on the Home/Up button, so long
+         * as you specify a parent activity in AndroidManifest.xml.
+         * */
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

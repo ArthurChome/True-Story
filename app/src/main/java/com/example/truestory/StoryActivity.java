@@ -61,6 +61,7 @@ public class StoryActivity extends AppCompatActivity {
     public Button storyTrueButton;
     public Button storyFalseButton;
     public Button proceedButton;
+    public Button exitButton;
 
     /** Text views */
     public TextView notificationsText;
@@ -88,13 +89,15 @@ public class StoryActivity extends AppCompatActivity {
 
         if (n == 0){
             trueNews = true;
-            storyString =  databaseHelper.queryDatabase("SELECT * FROM TrueStory;");
+            storyString =  databaseHelper.queryDatabase("SELECT * FROM TrueStory ORDER BY RANDOM() LIMIT 1;");
         }
         else {
             trueNews = false;
-            storyString = databaseHelper.queryDatabase("SELECT * FROM FakeStory;");
+            storyString = databaseHelper.queryDatabase("SELECT * FROM FakeStory  ORDER BY RANDOM() LIMIT 1;");
         }
         databaseHelper.close();
+        /** Debugger */
+        Log.d("storyString chosen: ", storyString);
         storyText.setText(storyString);
     }
 
@@ -106,6 +109,7 @@ public class StoryActivity extends AppCompatActivity {
         storyTrueButton = findViewById(R.id.trueButton);
         storyFalseButton = findViewById(R.id.falseButton);
         proceedButton = findViewById(R.id.proceedButton);
+        exitButton = findViewById(R.id.buttonExit);
 
         /** Specifiy the textviews. */
         notificationsText = findViewById(R.id.notificationsText);
@@ -188,7 +192,17 @@ public class StoryActivity extends AppCompatActivity {
                }
             }
         });
+
+        /** Exit button: the player gets back to the start screen. */
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), StartGame.class);
+                /** Start the activity. */
+                startActivityForResult(myIntent, 0);
+            }});
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,18 +213,27 @@ public class StoryActivity extends AppCompatActivity {
 
         /** Get the parameters that have been passed for creation. */
         Bundle extras = getIntent().getExtras();
+
         if (extras != null){
             noPlayers = extras.getInt("noPlayers");
             noRounds = extras.getInt("noRounds");
             currentPlayer = extras.getInt("currentPlayer");
             currentRound = extras.getInt("currentRound");
 
-            /** Specify the current player and round. */
-            currentPlayerText.setText("Player: " + currentPlayer);
-            currentRoundText.setText("Round: "+ currentRound);
+            if (noPlayers == 1){
+                /** Specify the current player and round. */
+                currentPlayerText.setText("Player: one ");
+                currentRoundText.setText("Round: infinite");
+                /** At default, the exit button is not visible. */
+                exitButton.setVisibility(View.VISIBLE);
+            }
+            else {
+                /** Specify the current player and round. */
+                currentPlayerText.setText("Player: " + currentPlayer);
+                currentRoundText.setText("Round: " + currentRound);
+            }
         }
         else throw new java.lang.Error("No passed arguments found.");
     }
-
 
 }

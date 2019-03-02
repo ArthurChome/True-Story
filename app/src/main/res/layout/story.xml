@@ -9,15 +9,15 @@
 
     <TextView
         android:id="@+id/storyText"
-        android:layout_width="363dp"
-        android:layout_height="229dp"
+        android:layout_width="259dp"
+        android:layout_height="263dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="93dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
-        android:textColor="#FFFFFF" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="68dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="24dp" />
 
 
     <Button
@@ -63,12 +63,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="120dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginBottom="54dp"
+        android:layout_marginStart="123dp"
+        android:layout_marginLeft="123dp"
+        android:layout_marginBottom="83dp"
         android:text=""
-        android:textColor="#FFFFFF"
-        />
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/currentPlayerText"
@@ -86,8 +85,8 @@
 
     <TextView
         android:id="@+id/currentRoundText"
-        android:layout_width="111dp"
-        android:layout_height="42dp"
+        android:layout_width="116dp"
+        android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -97,5 +96,18 @@
         android:text=""
         android:textColor="#FFFFFF"
         android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/buttonExit"
+        android:layout_width="116dp"
+        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="549dp"
+        android:layout_marginEnd="138dp"
+        android:layout_marginRight="138dp"
+        android:text="Exit" />
 
 </RelativeLayout>
