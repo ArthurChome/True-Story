@@ -25,14 +25,6 @@ import java.util.Random;
 
 public class StoryActivity extends AppCompatActivity {
 
-
-    /** We will be using Volley to help us get webservice data.
-     * https://www.londonappdeveloper.com/consuming-a-json-rest-api-in-android/
-     * https://www.youtube.com/watch?v=y2xtLqP8dSQ : IMPORTANT VIDEO
-     * */
-    //String baseURL = "https://www.reddit.com/r/todayilearned/new.json?limit=25";
-    //RequestQueue mRequestQueue = Volley.newRequestQueue(this);
-
     /**
      * Fields for the current game.
      * This includes the round we're at, the number of players and the current player we're at.
@@ -43,6 +35,13 @@ public class StoryActivity extends AppCompatActivity {
     public int noRounds;
     int currentPlayer = 1;
     int currentRound = 1;
+    boolean playerCorrect;
+
+    /** Players' scores */
+    int playerScore1;
+    int playerScore2;
+    int playerScore3 ;
+    int playerScore4;
 
     /** This variable indicated whether an option has been selected.
      * -1 = nothing selected, 0 = true selected, 1 = false selected.
@@ -68,6 +67,7 @@ public class StoryActivity extends AppCompatActivity {
     public TextView currentPlayerText;
     public TextView currentRoundText;
     public TextView storyText;
+    public TextView playerScoreText;
 
     /** Query */
     public String query(String queryString){
@@ -116,6 +116,7 @@ public class StoryActivity extends AppCompatActivity {
         currentPlayerText = findViewById(R.id.currentPlayerText);
         currentRoundText = findViewById(R.id.currentRoundText);
         storyText = findViewById(R.id.storyText);
+        playerScoreText = findViewById(R.id.playerScoreText);
 
 
         /** Set-up a listener for the new game button. */
@@ -142,53 +143,57 @@ public class StoryActivity extends AppCompatActivity {
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean playerCorrect;
                 /** Nothing has been selected yet. */
                if(buttonSelected == -1){
                    notificationsText.setText("Select a button to proceed");
                }
                /** True button selected. */
-               else if (buttonSelected == 0){
-                   /** Indicate whether the player was right or not. */
-                   if (trueNews){
-                       playerCorrect = true;
-                   }
-                   else playerCorrect= false;
+               else {
+                   if (buttonSelected == 0){
+                       /** Indicate whether the player was right or not. */
+                       if (trueNews){
+                           playerCorrect = true;
+                           databaseHelper.openDataBase();
+                           databaseHelper.increaseScore(currentPlayer - 1);
+                           databaseHelper.close();
+                       }
+                       else playerCorrect= false;
 
+                       /** Debugger */
+                       Log.d("playerCorrect?", String.valueOf(playerCorrect));
+
+
+                   }
+                   /** False button selected. */
+                   else if (buttonSelected == 1){
+                       /** Indicate whether the player was right or not. */
+                       if (trueNews){
+                           playerCorrect = false;
+                           databaseHelper.openDataBase();
+                           databaseHelper.increaseScore(currentPlayer - 1);
+                           databaseHelper.close();
+                       }
+                       else playerCorrect= true;
+                   }
 
                    Intent myIntent = new Intent(view.getContext(), StoryResultActivity.class);
-
-                   /** Debugger */
-                   Log.d("playerCorrect?", String.valueOf(playerCorrect));
-
-                   /** Pass some parameters. */
+                   /** Pass some parameters.
+                    *  Alot of code duplication, should be improved.
+                    *  */
                    myIntent.putExtra("playerCorrect", playerCorrect);
                    myIntent.putExtra("noPlayers", noPlayers);
                    myIntent.putExtra("noRounds", noRounds);
                    myIntent.putExtra("currentPlayer", currentPlayer);
                    myIntent.putExtra("currentRound", currentRound);
-                   /** Start the activity. */
-                   startActivityForResult(myIntent, 0);
 
-               }
-               /** False button selected. */
-               else if (buttonSelected == 1){
-                   /** Indicate whether the player was right or not. */
-                   if (trueNews){
-                       playerCorrect = false;
-                   }
-                   else playerCorrect= true;
+                   myIntent.putExtra("scorePlayer1", playerScore1);
+                   myIntent.putExtra("scorePlayer2", playerScore2);
+                   myIntent.putExtra("scorePlayer3", playerScore3);
+                   myIntent.putExtra("scorePlayer4", playerScore4);
 
-                   Intent myIntent = new Intent(view.getContext(), StoryResultActivity.class);
-                   /** Pass some parameters. */
-                   Log.d("playerCorrect?", String.valueOf(playerCorrect));
-                   myIntent.putExtra("playerCorrect", playerCorrect);
-                   myIntent.putExtra("noPlayers", noPlayers);
-                   myIntent.putExtra("noRounds", noRounds);
-                   myIntent.putExtra("currentPlayer", currentPlayer);
-                   myIntent.putExtra("currentRound", currentRound);
-                   /** Start the activity. */
-                   startActivityForResult(myIntent, 0);
+                   /** Start the next activity, end this one. */
+                   startActivity(myIntent);
+                   finish();
                }
             }
         });
@@ -197,9 +202,10 @@ public class StoryActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), StartGame.class);
-                /** Start the activity. */
-                startActivityForResult(myIntent, 0);
+                Intent myIntent = new Intent(view.getContext(), StartGameActivity.class);
+                /** Start the next activity, end this one. */
+                startActivity(myIntent);
+                finish();
             }});
     }
 
@@ -220,6 +226,12 @@ public class StoryActivity extends AppCompatActivity {
             currentPlayer = extras.getInt("currentPlayer");
             currentRound = extras.getInt("currentRound");
 
+            /** Get players' scores */
+            playerScore1 = extras.getInt("scorePlayer1");
+            playerScore2 = extras.getInt("scorePlayer2");
+            playerScore3 = extras.getInt("scorePlayer3");
+            playerScore4 = extras.getInt("scorePlayer4");
+
             if (noPlayers == 1){
                 /** Specify the current player and round. */
                 currentPlayerText.setText("Player: one ");
@@ -231,6 +243,10 @@ public class StoryActivity extends AppCompatActivity {
                 /** Specify the current player and round. */
                 currentPlayerText.setText("Player: " + currentPlayer);
                 currentRoundText.setText("Round: " + currentRound);
+                databaseHelper.openDataBase();
+                String currentScore = databaseHelper.fetchScore(currentPlayer - 1);
+                databaseHelper.close();
+                playerScoreText.setText("Score: " + currentScore);
             }
         }
         else throw new java.lang.Error("No passed arguments found.");

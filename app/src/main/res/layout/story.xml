@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/storyText"
-        android:layout_width="259dp"
-        android:layout_height="263dp"
+        android:layout_width="329dp"
+        android:layout_height="260dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="68dp"
@@ -90,8 +90,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="194dp"
-        android:layout_marginLeft="194dp"
+        android:layout_marginStart="276dp"
+        android:layout_marginLeft="276dp"
         android:layout_marginTop="23dp"
         android:text=""
         android:textColor="#FFFFFF"
@@ -109,5 +109,18 @@
         android:layout_marginEnd="138dp"
         android:layout_marginRight="138dp"
         android:text="Exit" />
+
+    <TextView
+        android:id="@+id/playerScoreText"
+        android:layout_width="107dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="146dp"
+        android:layout_marginLeft="146dp"
+        android:layout_marginTop="20dp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"/>
 
 </RelativeLayout>

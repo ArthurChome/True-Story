@@ -23,6 +23,12 @@ public class StoryResultActivity extends AppCompatActivity {
     public TextView resultText;
     public Button continueButton;
 
+    /** Players' scores */
+    int playerScore1;
+    int playerScore2;
+    int playerScore3 ;
+    int playerScore4;
+
     /** Initialization function */
     void init(){
         continueButton.setOnClickListener(new View.OnClickListener() {
@@ -33,7 +39,7 @@ public class StoryResultActivity extends AppCompatActivity {
 
                 /** Can we finish the game? */
                 if(currentRound == noRounds && currentPlayer == noPlayers){
-                    myIntent = new Intent(view.getContext(), StartGame.class);
+                    myIntent = new Intent(view.getContext(), LeaderBoardActivity.class);
                 }
                 /** Is it the next player's turn? */
                 else if (currentRound == noRounds){
@@ -52,11 +58,42 @@ public class StoryResultActivity extends AppCompatActivity {
                 myIntent.putExtra("noRounds", noRounds);
                 myIntent.putExtra("currentPlayer", currentPlayer);
                 myIntent.putExtra("currentRound", currentRound);
-                /** Start the activity. */
-                startActivityForResult(myIntent, 0);
+
+                myIntent.putExtra("scorePlayer1", playerScore1);
+                myIntent.putExtra("scorePlayer2", playerScore2);
+                myIntent.putExtra("scorePlayer3", playerScore3);
+                myIntent.putExtra("scorePlayer4", playerScore4);
+
+                /** Start the next activity, end this one. */
+                startActivity(myIntent);
+                finish();
             }
         });
     }
+
+     void changeScore(boolean correct){
+         /** Get the parameters that have been passed for creation. */
+         Bundle extras = getIntent().getExtras();
+        int currentPlayer = extras.getInt("currentPlayer");
+        String extraName = "scorePlayer" + Integer.toString(currentPlayer);
+        if (currentPlayer == 1){
+            playerScore1 = playerScore1 + 1;
+        }
+        else if (currentPlayer == 2){
+            playerScore2 = playerScore2 + 1;
+
+        }
+        else if (currentPlayer == 3){
+            playerScore3 = playerScore3 + 1;
+
+        }
+        else if (currentPlayer == 4){
+            playerScore4 = playerScore4 + 1;
+
+        }
+        else throw new java.lang.Error("Current Player not found at StoryResultActivity.");
+        return;
+     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +116,13 @@ public class StoryResultActivity extends AppCompatActivity {
             currentPlayer = extras.getInt("currentPlayer");
             currentRound = extras.getInt("currentRound");
             playerCorrect = extras.getBoolean("playerCorrect");
+
+            /** Fetch the players' respective scores. */
+            playerScore1 = extras.getInt("playerScore1");
+            playerScore2 = extras.getInt("playerScore2");
+            playerScore3 = extras.getInt("playerScore3");
+            playerScore4 = extras.getInt("playerScore4");
+
         }
         /** If the parameters cannot be found, something went wrong. */
         else throw new java.lang.Error("No passed arguments found.");

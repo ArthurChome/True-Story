@@ -12,9 +12,13 @@ import android.widget.TextView;
 
 public class SelectPlayersActivity  extends AppCompatActivity {
 
+    /** Different buttons */
     public Button player2Button;
     public Button player3Button;
     public Button player4Button;
+
+    /** This is the database helper. */
+    DatabaseHelper databaseHelper;
 
 
     /** Pass arguments to the next activity that you have the intention to start. */
@@ -29,6 +33,13 @@ public class SelectPlayersActivity  extends AppCompatActivity {
     /** Initialize the buttons. */
     public void init(){
 
+        /** Get the database helper and reset the scores of the potential 4 players. */
+        databaseHelper = new DatabaseHelper(this);
+        databaseHelper.openDataBase();
+        databaseHelper.resetScores();
+        databaseHelper.close();
+
+        /** Initialize the buttons */
         player2Button = findViewById(R.id.player2Button);
         player3Button = findViewById(R.id.player3Button);
         player4Button = findViewById(R.id.player4Button);
@@ -43,8 +54,14 @@ public class SelectPlayersActivity  extends AppCompatActivity {
                 Intent myIntent = new Intent(view.getContext(), StoryActivity.class);
                 /** Pass some arguments to the next activity. */
                 passArguments(myIntent, 2, 5, 1, 1);
+
+                databaseHelper.openDataBase();
+                databaseHelper.setNoPlayers(2);
+                databaseHelper.close();
+
                 /** Start the activity. */
-                startActivityForResult(myIntent, 0);
+                startActivity(myIntent);
+                finish();
             }
         });
 
@@ -54,12 +71,17 @@ public class SelectPlayersActivity  extends AppCompatActivity {
                 Log.d("CREATION","click click.");
                 /** When the player clicks the new game-button,
                  * he gets rerouted to the select no. of players screen. */
-                //StoryActivity activity = new StoryActivity();
                 Intent myIntent = new Intent(view.getContext(), StoryActivity.class);
                 /** Pass some arguments to the next activity. */
                 passArguments(myIntent, 3, 5, 1, 1);
+
+                databaseHelper.openDataBase();
+                databaseHelper.setNoPlayers(3);
+                databaseHelper.close();
+
                 /** Start the activity. */
-                startActivityForResult(myIntent, 0);
+                startActivity(myIntent);
+                finish();
             }
         });
 
@@ -73,8 +95,20 @@ public class SelectPlayersActivity  extends AppCompatActivity {
                 Intent myIntent = new Intent(view.getContext(), StoryActivity.class);
                 /** Pass some arguments to the next activity. */
                 passArguments(myIntent, 4, 5, 1, 1);
-                /** Start the activity. */
-                startActivityForResult(myIntent, 0);
+
+                databaseHelper.openDataBase();
+                databaseHelper.setNoPlayers(4);
+                databaseHelper.close();
+
+
+                /** Start the activity and finish this activity.
+                 *  Prevents the user from going back to this activity.
+                 *
+                 *  It also clears the activity stack, liberating alot of memory space
+                 *  and speeding up the application.
+                 *  */
+                startActivity(myIntent);
+                finish();
             }
         });
     }

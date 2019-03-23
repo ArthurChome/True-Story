@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".StartGame"
+            android:name=".StartGameActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".StoryActivity"></activity>
+        <activity android:name=".LeaderBoardActivity"></activity>
         <activity android:name=".SelectPlayersActivity" ></activity>
         <activity android:name=".StoryResultActivity" ></activity>
     </application>

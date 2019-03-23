@@ -2,8 +2,6 @@ package com.example.truestory;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,7 +15,7 @@ import android.widget.Button;
  * Should end with activity: SHOULD BE FIXED.
  * */
 
-public class StartGame extends AppCompatActivity {
+public class StartGameActivity extends AppCompatActivity {
     /** Setup the new game button */
     public Button newGameButton;
     public Button randomStoriesButton;
@@ -28,6 +26,11 @@ public class StartGame extends AppCompatActivity {
         intent.putExtra("noRounds", noRounds);
         intent.putExtra("currentPlayer", currentPlayer);
         intent.putExtra("currentRound", currentRound);
+        /** Setup the scores for the respective players. */
+        intent.putExtra("scorePlayer1", 0);
+        intent.putExtra("scorePlayer2", 0);
+        intent.putExtra("scorePlayer3", 0);
+        intent.putExtra("scorePlayer4", 0);
         return;
     }
 
@@ -44,7 +47,8 @@ public class StartGame extends AppCompatActivity {
                 /** When the player clicks the new game-button,
                  * he gets rerouted to the select no. of players screen. */
                 Intent myIntent = new Intent(view.getContext(), SelectPlayersActivity.class);
-                startActivityForResult(myIntent, 0);
+                startActivity(myIntent);
+                finish();
             }
         });
 
@@ -58,7 +62,8 @@ public class StartGame extends AppCompatActivity {
                 /** Pass some arguments to the next activity. */
                 passArguments(myIntent, 1, -1, 1, 1);
                 /** Start the activity. */
-                startActivityForResult(myIntent, 0);
+                startActivity(myIntent);
+                finish();
             }
         });
     }
@@ -68,7 +73,7 @@ public class StartGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_game);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         Log.d("CREATION","created.");
         /** Initialize the buttons. */
         initButtons();
