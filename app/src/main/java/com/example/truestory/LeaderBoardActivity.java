@@ -38,17 +38,16 @@ public class LeaderBoardActivity extends AppCompatActivity {
         /** Complete the ranking String */
         for(int i = 0; i < noPlayers; i++){
             databaseHelper.openDataBase();
-            ranking = ranking + "Player " + String.valueOf(i + 1) + ": " + databaseHelper.fetchScore(i) + "\n";
+            ranking = ranking + "Player " + String.valueOf(i + 1) + " 's score: " + databaseHelper.fetchScore(i) + "\n";
             databaseHelper.close();
         }
 
         /** Bind the screen elements. */
-        leaderBoardText.findViewById(R.id.leaderBoardText);
-        continueButton.findViewById(R.id.continueButton);
+        leaderBoardText = (TextView) findViewById(R.id.leaderBoardText);
+        continueButton = (Button) findViewById(R.id.continueButton);
 
+        /** Set the text and provide a listener to the 'continue' button. */
         leaderBoardText.setText(ranking);
-
-
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

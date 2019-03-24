@@ -169,11 +169,14 @@ public class StoryActivity extends AppCompatActivity {
                        /** Indicate whether the player was right or not. */
                        if (trueNews){
                            playerCorrect = false;
+                       }
+                       else {
+                           playerCorrect= true;
+                           /** Increase the player's score */
                            databaseHelper.openDataBase();
                            databaseHelper.increaseScore(currentPlayer - 1);
                            databaseHelper.close();
                        }
-                       else playerCorrect= true;
                    }
 
                    Intent myIntent = new Intent(view.getContext(), StoryResultActivity.class);
